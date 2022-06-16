@@ -66,15 +66,34 @@ const Player = (props) => {
             textAlert("You're still recording!")
         else if (recording.length === 0)
             textAlert("You haven't recorded anything yet!")
+        else {
+            const baseTime = recording[0].timeStamp;
+            recording.forEach(element => {
+                setTimeout(() => {
+                    play(element.note)
+                }, element.timeStamp - baseTime);
+            });
+        }
     }
 
     const handleClearButton = (e) => {
-        console.log("clear button clicked")
+        setRecording([])
+        textAlert("Recording deleted!")
+    }
+
+    const handlePianoClick = (e, note) => {
+        if (isRecording) {
+            const element = {}
+            element.note = note
+            element.timeStamp = e.timeStamp
+            setRecording((old) => [...old, element])
+        }
+        play(note)
     }
 
     return <div>
         <p>{alertText}</p>
-        <Piano />
+        <Piano handleClick={handlePianoClick} />
         <RecordButton handleClick={handleRecordButton} />
         <button onClick={handlePlayButton}>Play</button>
         <button onClick={handleClearButton}>Clear</button>
@@ -82,23 +101,19 @@ const Player = (props) => {
 }
 
 const Piano = (props) => {
-    const handleClick = (e, note) => {
-        play(note)
-    }
-
     return <ul className="set">
-        <li className="bar white b" onClick={(e) => handleClick(e, 'B3')}/>
+        <li className="bar white b" onClick={(e) => props.handleClick(e, 'B3')}/>
         <li className="bar black as"/>
-        <li className="bar white a" onClick={(e) => handleClick(e, 'A3')}/>
+        <li className="bar white a" onClick={(e) => props.handleClick(e, 'A3')}/>
         <li className="bar black gs"/>
-        <li className="bar white g" onClick={(e) => handleClick(e, 'G4')}/>
+        <li className="bar white g" onClick={(e) => props.handleClick(e, 'G4')}/>
         <li className="bar black fs" />
-        <li className="bar white f" onClick={(e) => handleClick(e, 'F4')}/>
-        <li className="bar white e" onClick={(e) => handleClick(e, 'E4')}/>
+        <li className="bar white f" onClick={(e) => props.handleClick(e, 'F4')}/>
+        <li className="bar white e" onClick={(e) => props.handleClick(e, 'E4')}/>
         <li className="bar black ds"/>
-        <li className="bar white d" onClick={(e) => handleClick(e, 'D4')}/>
+        <li className="bar white d" onClick={(e) => props.handleClick(e, 'D4')}/>
         <li className="bar black cs"/>
-        <li className="bar white c" onClick={(e) => handleClick(e, 'C4')}/>
+        <li className="bar white c" onClick={(e) => props.handleClick(e, 'C4')}/>
     </ul>
 }
 
