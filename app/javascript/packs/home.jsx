@@ -7,7 +7,6 @@ import e4 from './assets/sounds/Piano.ff.E4.mp3'
 import g4 from './assets/sounds/Piano.ff.G4.mp3'
 import f4 from './assets/sounds/Piano.ff.F4.mp3'
 
-
 import React from "react";
 import ReactDOM from "react-dom";
 import { useEffect, useState } from 'react';
@@ -32,6 +31,76 @@ function play(note) {
     sound.play()
 }
 
+
+// Has record, play and clear buttons
+// Records user key presses and clicks on piano
+const Player = (props) => {
+    const [recording, setRecording] = useState([])
+    const [isRecording, setIsRecording] = useState(false)
+    const [alertText, setAlertText] = useState("")
+
+    const RecordButton = (props) => {
+        if (isRecording === false && recording.length === 0)
+            return <button onClick={props.handleClick}>Record</button>
+        else if (isRecording === false && recording.length !== 0)
+            return <button onClick={props.handleClick}>Save</button>
+        else if (isRecording)
+            return <button onClick={props.handleClick}>Recording</button>
+        else
+            return <button onClick={props.handleClick}>Record</button>
+    }
+
+    const textAlert = (alertText) => {
+        setAlertText(alertText)
+        setTimeout(() => {
+            setAlertText("")
+        }, 2000)
+    }
+
+    const handleRecordButton = (e) => {
+        setIsRecording((old) => !old)
+    }
+
+    const handlePlayButton = (e) => {
+        if (isRecording)
+            textAlert("You're still recording!")
+        else if (recording.length === 0)
+            textAlert("You haven't recorded anything yet!")
+    }
+
+    const handleClearButton = (e) => {
+        console.log("clear button clicked")
+    }
+
+    return <div>
+        <p>{alertText}</p>
+        <Piano />
+        <RecordButton handleClick={handleRecordButton} />
+        <button onClick={handlePlayButton}>Play</button>
+        <button onClick={handleClearButton}>Clear</button>
+    </div>
+}
+
+const Piano = (props) => {
+    const handleClick = (e, note) => {
+        play(note)
+    }
+
+    return <ul className="set">
+        <li className="bar white b" onClick={(e) => handleClick(e, 'B3')}/>
+        <li className="bar black as"/>
+        <li className="bar white a" onClick={(e) => handleClick(e, 'A3')}/>
+        <li className="bar black gs"/>
+        <li className="bar white g" onClick={(e) => handleClick(e, 'G4')}/>
+        <li className="bar black fs" />
+        <li className="bar white f" onClick={(e) => handleClick(e, 'F4')}/>
+        <li className="bar white e" onClick={(e) => handleClick(e, 'E4')}/>
+        <li className="bar black ds"/>
+        <li className="bar white d" onClick={(e) => handleClick(e, 'D4')}/>
+        <li className="bar black cs"/>
+        <li className="bar white c" onClick={(e) => handleClick(e, 'C4')}/>
+    </ul>
+}
 
 function App() {
     const [recording, setRecording] = useState([])
@@ -133,6 +202,7 @@ function App() {
 
     return (
         <div className="App">
+            <Player />
             <Messages messages={messages}/>
             <hr/>
             <ul className="set">
