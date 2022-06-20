@@ -1,5 +1,10 @@
+include SecureRandom
+
 class UserController < ApplicationController
   def get
+    if not session[:user_id]
+      session[:user_id] = SecureRandom.base36
+    end
     render json: {
       user_id: session[:user_id]
     }
