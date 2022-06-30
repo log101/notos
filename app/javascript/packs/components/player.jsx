@@ -1,27 +1,31 @@
-import a3 from '../assets/sounds/Piano.pp.A3.mp3'
-import b3 from '../assets/sounds/Piano.mf.B3.mp3'
-import c4 from '../assets/sounds/Piano.mf.C4.mp3'
-import d4 from '../assets/sounds/Piano.mf.D4.mp3'
-import e4 from '../assets/sounds/Piano.ff.E4.mp3'
-import g4 from '../assets/sounds/Piano.ff.G4.mp3'
-import f4 from '../assets/sounds/Piano.ff.F4.mp3'
+import a4 from '../assets/sounds/A4.mp3'
+import b4 from '../assets/sounds/B4.mp3'
+import c4 from '../assets/sounds/C4.mp3'
+import d4 from '../assets/sounds/D4.mp3'
+import e4 from '../assets/sounds/E4.mp3'
+import g3 from '../assets/sounds/G3.mp3'
+import f3 from '../assets/sounds/F3.mp3'
 
+import recordingsService from '../services/recordings_service'
 import { Piano } from './piano'
 import { Howl } from 'howler';
 import React from "react";
+
+import roomService from '../services/room_service'
+import usernameService from '../services/user_name_service'
 
 import { useState } from 'react';
 
 
 const Player = (props) => {
     const notes = {
-        'A3': a3,
-        'B3': b3,
+        'A4': a4,
+        'B4': b4,
         'C4': c4,
         'D4': d4,
         'E4': e4,
-        'F4': f4,
-        'G4': g4,
+        'F3': f3,
+        'G3': g3,
     }
 
     const play = (note) => {
@@ -40,7 +44,7 @@ const Player = (props) => {
         if (isRecording === false && recording.length === 0)
             return <button onClick={props.handleClick}>Record</button>
         else if (isRecording === false && recording.length !== 0)
-            return <button onClick={props.handleClick}>Save</button>
+            return <button onClick={props.handleSave}>Save</button>
         else if (isRecording)
             return <button onClick={props.handleClick}>Recording</button>
         else
@@ -88,10 +92,23 @@ const Player = (props) => {
         play(note)
     }
 
+    const handleSaveButton = (event) => {
+        event.preventDefault()
+        recordingsService.saveRecording(
+            {
+                recording_data: recording,
+            }
+        ).then(data => {
+            setRecording([])
+            setIsRecording(false)
+            textAlert(data.alert)
+        })
+    }
+
     return <div>
         <p>{alertText}</p>
         <Piano handleClick={handlePianoClick} />
-        <RecordButton handleClick={handleRecordButton} />
+        <RecordButton handleClick={handleRecordButton} handleSave={handleSaveButton} />
         <button onClick={handlePlayButton}>Play</button>
         <button onClick={handleClearButton}>Clear</button>
     </div>
