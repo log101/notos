@@ -1,38 +1,32 @@
 import React from "react";
 import { useState, useEffect } from 'react';
 
+import recordingService from '../services/recordings_service'
 import roomService from '../services/room_service'
+import usernameService from '../services/user_name_service'
 
-const RoomForm = (props) => {
-    if (props.mode === "Show")
-        return <button onClick={props.handleEditButton}>Change Room</button>
-    else if (props.mode === "Edit") {
-        return <form onSubmit={props.handleSubmitForm}>
-            <input name="room_id" value={props.roomName} onChange={props.roomNameHandler} type="text"/>
-            <input type="submit" value="Save"/>
-        </form>
-    }
-}
+import { Recordings } from "./recordings";
+import { UserDisplay } from './user_display'
+import { RoomDisplay } from './room_display'
+
+import consumer from "../../channels/consumer";
 
 const Room = (props) => {
     const [roomName, setRoomName] = useState("")
-    const [mode, setMode] = useState("Show")
+    const [username, setUserName] = useState("")
     const [alertText, setAlertText] = useState("")
+
+    const [recordings, setRecordings] = useState([])
+
+    const [roomDisplayMode, setRoomDisplayMode] = useState("Show")
+    const [userDisplayMode, setUserDisplayMode] = useState("Show")
+
 
     const textAlert = (alertText) => {
         setAlertText(alertText)
         setTimeout(() => {
             setAlertText("")
         }, 2000)
-    }
-
-    const handleEditButton = () => {
-        setMode(old => {
-            if (old === "Edit")
-                return "Show"
-            else if (old === "Show")
-                return "Edit"
-        })
     }
 
     const roomFormSubmitHandler = (event) => {
@@ -47,32 +41,73 @@ const Room = (props) => {
                     textAlert("Successfully changed roomName!")
                 }
                 setRoomName(data.room_id)
-                setMode("Show")
+                setRoomDisplayMode("Show")
+                recordingService
+                    .getRecordings()
+                    .then((data) => {
+                        setRecordings(data)
+                    })
             })
     }
 
-    const handleUsernameForm = (event) => {
-        setRoomName(event.target.value)
+    const usernameFormSubmitHandler = (event) => {
+        event.preventDefault()
+        usernameService.updateUsername(username)
+            .then(data => {
+                if (data.user_id !== username) {
+                    textAlert("Problem while setting the username!")
+                } else {
+                    textAlert("Successfully changed username!")
+                }
+                setUserName(data.user_id)
+                setUserDisplayMode("Show")
+            })
     }
-
 
     useEffect(() => {
         roomService
             .getRoom()
             .then((data) => {
                 setRoomName(data.room_id)
+                usernameService
+                    .getPerson()
+                    .then((data) => {
+                        setUserName(data.user_id)
+                    })
+                recordingService
+                    .getRecordings()
+                    .then((data) => {
+                        setRecordings(data)
+                    })
+                consumer.subscriptions.create({channel: "ChatChannel", id: data.room_id},
+                    {
+                        received(data) {
+                            setRecordings((old) => [...old, data])
+                        }
+                    })
             })
     }, [])
 
     return <div>
         <p>{alertText}</p>
-        <p>Room:</p>
-        <p id="username-display">{roomName}</p>
-        <RoomForm mode={mode}
-                  roomName={roomName}
-                  roomNameHandler={handleUsernameForm}
-                  handleEditButton={handleEditButton}
-                  handleSubmitForm={roomFormSubmitHandler} />
+        <RoomDisplay
+            roomName={roomName}
+            setter={setRoomName}
+            updateFormHandler={roomFormSubmitHandler}
+            mode={roomDisplayMode}
+            modeSetter={setRoomDisplayMode}
+        />
+        <hr/>
+        <UserDisplay
+            username={username}
+            setter={setUserName}
+            updateFormHandler={usernameFormSubmitHandler}
+            mode={userDisplayMode}
+            modeSetter={setUserDisplayMode}
+        />
+        <hr/>
+        <Recordings recordings={recordings} />
+        <hr/>
     </div>
 }
 

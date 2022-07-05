@@ -1,5 +1,4 @@
 import React from "react";
-import { useState, useEffect } from 'react';
 import { Howl } from 'howler';
 
 import a4 from '../assets/sounds/A4.mp3'
@@ -10,7 +9,6 @@ import e4 from '../assets/sounds/E4.mp3'
 import g3 from '../assets/sounds/G3.mp3'
 import f3 from '../assets/sounds/F3.mp3'
 
-import recordingService from '../services/recordings_service'
 
 const PlayButton = (props) => {
     const recording = props.recording
@@ -45,19 +43,9 @@ const PlayButton = (props) => {
 }
 
 const Recordings = (props) => {
-    const [recordings, setRecordings] = useState([])
 
-    useEffect(() => {
-        recordingService
-            .getRecordings()
-            .then((data) => {
-                setRecordings(data)
-            })
-    }, [])
-
-
-    return <div>
-        {recordings.map(e => <div>
+    return <div id="recordings-container">
+        {props.recordings.map(e => <div>
             <p>Sent by {e.user.name} at {e.created_at}</p>
             <PlayButton recording={e.data} />
         </div>)}

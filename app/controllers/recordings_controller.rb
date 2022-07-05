@@ -6,12 +6,22 @@ class RecordingsController < ApplicationController
   end
 
   def create
-    recording = Recording.new(
-      user: User.find_by(name: session[:user_id]),
-      room: Room.find_by(name: session[:room_id]),
+    @user = User.find_by(name: session[:user_id])
+    @room = Room.find_by(name: session[:room_id])
+    @recording = Recording.new(
+      user: @user,
+      room: @room,
       data: params[:recording_data],
     )
-    if recording.save!
+    if @recording.save!
+      ChatChannel.broadcast_to(@room, {
+        data: @recording.data,
+        user_id: @recording.user_id,
+        room_id: @recording.room_id,
+        created_at: @recording.created_at,
+        updated_at: @recording.updated_at,
+        user: @user
+      })
       render json: {
         code: 0,
         alert: "Sent successfully",
