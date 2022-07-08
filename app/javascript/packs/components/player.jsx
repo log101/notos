@@ -1,31 +1,61 @@
-import a4 from '../assets/sounds/A4.mp3'
-import b4 from '../assets/sounds/B4.mp3'
-import c4 from '../assets/sounds/C4.mp3'
-import d4 from '../assets/sounds/D4.mp3'
-import e4 from '../assets/sounds/E4.mp3'
-import g3 from '../assets/sounds/G3.mp3'
-import f3 from '../assets/sounds/F3.mp3'
-
 import recordingsService from '../services/recordings_service'
 import { Piano } from './piano'
 import { Howl } from 'howler';
-import React from "react";
-
-import roomService from '../services/room_service'
-import usernameService from '../services/user_name_service'
-
+import React, {useEffect} from "react";
 import { useState } from 'react';
+
+import note from '../assets/sounds/notes'
+
+let progressInterval;
+
+const ProgressBar = (props) => {
+    const [progress, setProgress] = useState(0)
+    useEffect(() => {
+        if (props.isRecording) {
+            progressInterval = setInterval(() => {
+                setProgress(prev => prev + 1)
+            }, 100)
+        } else {
+            clearInterval(progressInterval)
+            setProgress(0)
+        }
+    }, [props.isRecording])
+
+    useEffect(() => {
+        if (progress >= 100) {
+            props.setIsRecording(false)
+        }
+    }, [progress])
+    return <progress id="progress-bar" value={progress} max="100"/>
+}
 
 
 const Player = (props) => {
     const notes = {
-        'A4': a4,
-        'B4': b4,
-        'C4': c4,
-        'D4': d4,
-        'E4': e4,
-        'F3': f3,
-        'G3': g3,
+        "1C": note.c261,
+        "1Cs": note.c277,
+        "1D": note.d293,
+        "1Ds": note.d311,
+        "1E": note.e329,
+        "1F": note.f349,
+        "1Fs": note.f369,
+        "1G": note.g391,
+        "1Gs": note.g415,
+        "2A": note.a440,
+        "2As": note.a466,
+        "2B": note.b495,
+        "2C": note.c523,
+        "2Cs": note.c545,
+        "2D": note.d587,
+        "2Ds":note.d622,
+        "2E": note.e659,
+        "2F": note.f698,
+        "2Fs": note.f698s,
+        "2G": note.g783,
+        "2Gs": note.g830,
+        "3A": note.a880,
+        "3As": note.a932,
+        "3B": note.b987,
     }
 
     const play = (note) => {
@@ -35,20 +65,19 @@ const Player = (props) => {
         sound.play()
     }
 
-
     const [recording, setRecording] = useState([])
     const [isRecording, setIsRecording] = useState(false)
     const [alertText, setAlertText] = useState("")
 
     const RecordButton = (props) => {
         if (isRecording === false && recording.length === 0)
-            return <button onClick={props.handleClick}>Record</button>
+            return <a className="player-button" href="#" role="button" onClick={props.handleClick}>Record</a>
         else if (isRecording === false && recording.length !== 0)
-            return <button onClick={props.handleSave}>Save</button>
+            return <a className="player-button" href="#" role="button" onClick={props.handleSave}>Save</a>
         else if (isRecording)
-            return <button onClick={props.handleClick}>Recording</button>
+            return <a className="player-button" href="#" role="button" onClick={props.handleClick}>Recording</a>
         else
-            return <button onClick={props.handleClick}>Record</button>
+            return <a className="player-button" href="#" role="button" onClick={props.handleClick}>Record</a>
     }
 
     const textAlert = (alertText) => {
@@ -58,11 +87,14 @@ const Player = (props) => {
         }, 2000)
     }
 
+
     const handleRecordButton = (e) => {
+        e.preventDefault()
         setIsRecording((old) => !old)
     }
 
     const handlePlayButton = (e) => {
+        e.preventDefault()
         if (isRecording)
             textAlert("You're still recording!")
         else if (recording.length === 0)
@@ -78,6 +110,7 @@ const Player = (props) => {
     }
 
     const handleClearButton = (e) => {
+        e.preventDefault()
         setRecording([])
         textAlert("Recording deleted!")
     }
@@ -108,9 +141,10 @@ const Player = (props) => {
     return <div>
         <p>{alertText}</p>
         <Piano handleClick={handlePianoClick} />
+        <ProgressBar setIsRecording={setIsRecording} isRecording={isRecording} />
         <RecordButton handleClick={handleRecordButton} handleSave={handleSaveButton} />
-        <button onClick={handlePlayButton}>Play</button>
-        <button onClick={handleClearButton}>Clear</button>
+        <a className="player-button" href="#" role="button" onClick={handlePlayButton}>Play</a>
+        <a className="player-button" href="#" role="button" onClick={handleClearButton}>Clear</a>
     </div>
 }
 

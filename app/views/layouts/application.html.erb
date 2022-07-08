@@ -2,15 +2,21 @@
 <html>
   <head>
     <title>Notos</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+    <link type="text/css" rel="stylesheet" href="https://mczak.com/code/piano/assets/css/style.css">
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
+  <main class="container">
     <%= yield %>
+  </main>
   </body>
 </html>

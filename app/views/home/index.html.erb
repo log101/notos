@@ -1,2 +1,22 @@
+<nav>
+  <ul>
+    <li><strong>Notos</strong></li>
+  </ul>
+  <ul>
+    <li>
+      <button onclick="toggleUsername()" style="background-color: transparent; outline: 0; border: none" href="#">
+        <svg aria-hidden="true" focusable="false" role="img" viewBox="0 0 28 28" height="28" xmlns="http://www.w3.org/2000/svg" color="grey">
+          <circle r=13 cx="13" cy="13"/>
+        </svg>
+      </button>
+    </li>
+  </ul>
+</nav>
 <div id="home-container"></div>
 <%= javascript_pack_tag 'home' %>
+<script>
+    const toggleUsername = () => {
+        const toggled = document.getElementById("user-display").hidden
+        document.getElementById("user-display").hidden = !toggled
+    }
+</script>

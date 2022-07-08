@@ -47,6 +47,12 @@ const Room = (props) => {
                     .then((data) => {
                         setRecordings(data)
                     })
+                consumer.subscriptions.create({channel: "ChatChannel", id: data.room_id},
+                    {
+                        received(data) {
+                            setRecordings((old) => [...old, data])
+                        }
+                    })
             })
     }
 
@@ -90,6 +96,13 @@ const Room = (props) => {
 
     return <div>
         <p>{alertText}</p>
+        <UserDisplay
+            username={username}
+            setter={setUserName}
+            updateFormHandler={usernameFormSubmitHandler}
+            mode={userDisplayMode}
+            modeSetter={setUserDisplayMode}
+        />
         <RoomDisplay
             roomName={roomName}
             setter={setRoomName}
@@ -98,15 +111,7 @@ const Room = (props) => {
             modeSetter={setRoomDisplayMode}
         />
         <hr/>
-        <UserDisplay
-            username={username}
-            setter={setUserName}
-            updateFormHandler={usernameFormSubmitHandler}
-            mode={userDisplayMode}
-            modeSetter={setUserDisplayMode}
-        />
-        <hr/>
-        <Recordings recordings={recordings} />
+        <Recordings username={username} recordings={recordings} />
         <hr/>
     </div>
 }
