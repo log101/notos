@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = "http://localhost:3000/room"
+const baseUrl = "http://127.0.0.1/room"
 
 const getRoom = () => {
     const req = axios.get(`${baseUrl}/get`)
