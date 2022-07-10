@@ -1,18 +1,16 @@
 include SecureRandom
 
-# If there is no room_id session variable set one
-# users cannot create rooms they are automatically created
 class RoomsController < ApplicationController
   def get
-    if session[:room_id]
-      room = Room.find_by(name: session[:room_id])
+    @room = Room.find_by(name: session[:room_id])
+    unless @room.nil?
       render json: {
-        room_id: room.name
+        room_id: @room.name
       }
     else
-      room = Room.new(name: SecureRandom.random_number(10 ** 16))
-      if room.save
-        session[:room_id] = room.name
+      @new_room = Room.new(name: SecureRandom.random_number(10 ** 16))
+      if @new_room.save
+        session[:room_id] = @new_room.name
         render json: {
           room_id: session[:room_id]
         }

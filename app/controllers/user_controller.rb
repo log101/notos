@@ -2,17 +2,16 @@ include SecureRandom
 
 class UserController < ApplicationController
   def get
-    if session[:user_id]
-      user = User.find_by(name: session[:user_id])
+    @user = User.find_by(name: session[:user_id])
+    if @user
       render json: {
-        user_id: user.name
+        user_id: @user.name
       }
     else
       session[:user_id] = SecureRandom.base36
-      room = Room.find_by(name: session[:room_id])
-      puts session[:room_id]
-      user = User.new(name: session[:user_id], room_id: room.id)
-      user.save!
+      @room = Room.find_by(name: session[:room_id])
+      @new_user = User.new(name: session[:user_id], room_id: @room.id)
+      @new_user.save!
       render json: {
         user_id: session[:user_id]
       }

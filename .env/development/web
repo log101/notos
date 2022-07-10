@@ -1,0 +1,4 @@
+DATABASE_HOST=database
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres-password
+POSTGRES_DB=notos_development
