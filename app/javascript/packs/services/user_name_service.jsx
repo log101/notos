@@ -1,7 +1,5 @@
 import axios from 'axios';
-const baseUrl = "http://localhost:3000/user"
-
-import room_service from "./room_service";
+const baseUrl = "https://notosapp.herokuapp.com/user"
 
 const getPerson = () => {
     const req = axios.get(`${baseUrl}/get`)
