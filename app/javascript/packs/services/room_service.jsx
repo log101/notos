@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = "https://notosapp.herokuapp.com/room"
+const baseUrl = "http://localhost:3000/room"
 
 const getRoom = () => {
     const req = axios.get(`${baseUrl}/get`)

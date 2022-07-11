@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = "https://notosapp.herokuapp.com/recordings"
+const baseUrl = "http://localhost:3000/recordings"
 
 const getRecordings = (data) => {
     const req = axios.get(`${baseUrl}/index`)
