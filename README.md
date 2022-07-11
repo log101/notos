@@ -1,24 +1,17 @@
-# README
+Notos
+---
+### Instant Messaging for Audiophiles
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A completely different approach to instant messaging! Designed for music enthusiasts.
 
-Things you may want to cover:
+### How to Run
+* Clone the repository
+* `cd notos`
+* `yarn install`
+* `docker-compose up -d`
+* Create the database with `docker-compose exec web rails db:create`
+* Run the migrations with `docker-compose exec web rails db:migrate`
+* Access the app at localhost:3000
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### Stack
+![takasu_github_image](https://user-images.githubusercontent.com/50502021/177503462-7c89f209-9474-457f-ad40-e75a3b15f68f.png)
