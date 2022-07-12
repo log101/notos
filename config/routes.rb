@@ -1,6 +1,6 @@
-mount ActionCable.server => '/cable'
-
 Rails.application.routes.draw do
+  mount ActionCable.server => '/cable'
+
   get 'recordings/index'
   put 'recordings/create'
   get 'recordings/destroy'
