@@ -1,3 +1,5 @@
+mount ActionCable.server => '/cable'
+
 Rails.application.routes.draw do
   get 'recordings/index'
   put 'recordings/create'
