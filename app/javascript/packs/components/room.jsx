@@ -90,9 +90,6 @@ const Room = (props) => {
                         received(data) {
                             setRecordings((old) => [...old, data])
                         },
-                        disconnected() {
-                            window.location.reload()
-                        },
                     })
             })
     }, [])
