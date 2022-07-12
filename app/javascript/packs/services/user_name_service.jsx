@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseUrl = "http://127.0.0.1/user"
+const baseUrl = "https://notosapp.herokuapp.com/user"
 
 const getPerson = () => {
     const req = axios.get(`${baseUrl}/get`)
