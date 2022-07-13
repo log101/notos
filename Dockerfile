@@ -9,6 +9,9 @@ RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
 RUN npm install --global yarn
 
 COPY Gemfile* /usr/src/app/
+COPY package.json /usr/src/app/
+COPY yarn.lock /usr/src/app/
+
 WORKDIR /usr/src/app
 RUN bundle install
 RUN yarn add @rails/webpacker
