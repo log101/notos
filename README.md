@@ -9,6 +9,7 @@ A completely different approach to instant messaging! Designed for music enthusi
 * `cd notos`
 * `yarn install`
 * `docker-compose up -d`
+* Run the migrations with `docker-compose exec web rails db:migrate`
 * Access the app at localhost:3000
 
 ### Stack
