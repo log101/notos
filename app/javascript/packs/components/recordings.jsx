@@ -1,39 +1,16 @@
+/*
+ Kayıtları kullanıcıya gösteren ve çalan bileşenler
+*/
 import React, {useEffect} from "react";
 import { Howl } from 'howler';
 
-import note from '../assets/sounds/notes'
+import notes from "../assets/sounds/notes";
 
 
 const PlayButton = (props) => {
-    const recording = props.recording
+    const recording = props.recording // Kullanıcının en son kaydettiği parça
 
-    const notes = {
-        "1C": note.c261,
-        "1Cs": note.c277,
-        "1D": note.d293,
-        "1Ds": note.d311,
-        "1E": note.e329,
-        "1F": note.f349,
-        "1Fs": note.f369,
-        "1G": note.g391,
-        "1Gs": note.g415,
-        "2A": note.a440,
-        "2As": note.a466,
-        "2B": note.b495,
-        "2C": note.c523,
-        "2Cs": note.c545,
-        "2D": note.d587,
-        "2Ds":note.d622,
-        "2E": note.e659,
-        "2F": note.f698,
-        "2Fs": note.f698s,
-        "2G": note.g783,
-        "2Gs": note.g830,
-        "3A": note.a880,
-        "3As": note.a932,
-        "3B": note.b987,
-    }
-
+    // Verilen notayı çal
     const play = (note) => {
         var sound = new Howl({
             src: notes[note]
@@ -41,6 +18,7 @@ const PlayButton = (props) => {
         sound.play()
     }
 
+    // DOM zaman damgalarına göre notaları çal
     const handlePlayButton = (e) => {
         e.preventDefault()
         const baseTime = recording[0].timeStamp;
@@ -67,8 +45,10 @@ const PlayButton = (props) => {
     </a>
 }
 
-const Recordings = (props) => {
 
+// Odaya gönderilmiş ses parçalarını görüntüleyen bileşen
+const Recordings = (props) => {
+    // Ekranı aşağıya kaydır, en sonuncu kayda kadar
     useEffect(() => {
         setTimeout(() => {
             const container = document.getElementById("recordings-container")
@@ -76,6 +56,7 @@ const Recordings = (props) => {
         }, 500)
     }, [props.recordings])
 
+    // Map fonksiyonuyla kayıtları divlere dönüştür ve görüntüle
     return <div id="recordings-container">
         {props.recordings.map(e => {
             return <div

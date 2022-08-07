@@ -1,6 +1,8 @@
 include SecureRandom
 
+# Kullanıcı adı da oda numarasında olduğu gibi ortam değişkeninde tutuluyor
 class UserController < ApplicationController
+  # Kullanıcı adını sun
   def get
     @user = User.find_by(name: session[:user_id])
     if @user
@@ -18,6 +20,7 @@ class UserController < ApplicationController
     end
   end
 
+  # Kullanıcı adını değiştir
   def set
     if params[:user_id]
       user = User.find_by!(name: session[:user_id])

@@ -1,20 +1,17 @@
 import './assets/app.css';
-import { Player } from './components/player'
-import { UserDisplay } from './components/user_display'
-import { RoomDisplay } from './components/room_display'
-import { Recordings } from "./components/recordings";
-import { Room } from "./components/room"
+import {Player} from './components/player'
+import {Room} from "./components/room"
 
 import React from "react";
 import ReactDOM from "react-dom";
-import { useEffect, useState } from 'react';
 
 function App() {
-
+    // Room -> Oda kontrollerini ve mesajları içeren bileşen
+    // Player -> Sanal piyanoyu ve çalma kontrollerini içeren bileşen
     return (
         <div className="App">
-            <Room />
-            <Player />
+            <Room/>
+            <Player/>
         </div>
     );
 }

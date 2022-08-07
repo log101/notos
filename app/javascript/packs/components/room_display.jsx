@@ -1,16 +1,18 @@
 import React, {useState} from "react";
 
+// Oda değiştirme formu
 const RoomForm = (props) => {
     const [showInfo, setShowInfo] = useState(false)
 
+    // Formu gizle/göster
     const toggleInfo = () => {
         setShowInfo(old => !old)
     }
 
     if (props.mode === "Show")
-        return <article>
+        return <article>,
             <p style={{display: "inline", paddingRight: "8px"}} id="room-display">
-                {props.roomName.toString().slice(0, 4) + " - " + props.roomName.toString().slice(4, 8) + " - " + props.roomName.toString().slice(8, 12) + " - " + props.roomName.toString().slice(12, 16) }
+                {props.roomName.toString().slice(0, 4) + " - " + props.roomName.toString().slice(4, 8) + " - " + props.roomName.toString().slice(8, 12) + " - " + props.roomName.toString().slice(12, 16)}
             </p>
             <a style={{padding: "4px"}} onClick={props.handleEditButton}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -43,7 +45,11 @@ const RoomForm = (props) => {
     }
 }
 
+// Oda numarasını görüntüleyen bileşen
 const RoomDisplay = (props) => {
+    // Edit butonuna basıldığında görüntüleme modunu değiştir
+    // "Edit" olduğunda form gösteriliyor
+    // "Show" olduğunda oda numarası
     const handleEditButton = () => {
         props.modeSetter(old => {
             if (old === "Edit")
@@ -62,8 +68,8 @@ const RoomDisplay = (props) => {
                   roomName={props.roomName}
                   roomNameHandler={handleUsernameForm}
                   handleEditButton={handleEditButton}
-                  handleSubmitForm={props.updateFormHandler} />
+                  handleSubmitForm={props.updateFormHandler}/>
     </div>
 }
 
-export { RoomDisplay }
+export {RoomDisplay}

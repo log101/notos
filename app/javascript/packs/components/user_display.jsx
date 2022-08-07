@@ -1,8 +1,6 @@
 import React from "react";
-import { useState, useEffect } from 'react';
 
-import usernameService from '../services/user_name_service'
-
+// Kullanıcı adı değiştirme formu
 const UserForm = (props) => {
     if (props.mode === "Show")
         return <article id="user-display" hidden>
@@ -27,8 +25,9 @@ const UserForm = (props) => {
     }
 }
 
+// Kullanıcı adını görüntüleyen bileşen
 const UserDisplay = (props) => {
-
+    // Edit butonuna basıldığında görüntüleme modunu değiştir
     const handleEditButton = () => {
         props.modeSetter(old => {
             if (old === "Edit")

@@ -1,13 +1,12 @@
 include SecureRandom
 
 class RoomsController < ApplicationController
+  # Oda bilgisini sun
   def get
     @room = Room.find_by(name: session[:room_id])
-    unless @room.nil?
-      render json: {
-        room_id: @room.name
-      }
-    else
+    # Eğer ortam değişkeninde bir oda yoksa yeni bir oda oluştur
+    # ve bu odaya rastgele bir sayı ata
+    if @room.nil?
       @new_room = Room.new(name: SecureRandom.random_number(10 ** 16))
       if @new_room.save
         session[:room_id] = @new_room.name
@@ -20,9 +19,14 @@ class RoomsController < ApplicationController
           room_id: 0
         }
       end
+    else
+      render json: {
+        room_id: @room.name
+      }
     end
   end
 
+  # Oda numarasını değiştir
   def set
     if params[:room_id]
       room = Room.find_by!(name: session[:room_id])

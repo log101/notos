@@ -17,10 +17,7 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: <%= ENV.fetch("DATABASE_HOST") %>
-  username: <%= ENV.fetch("POSTGRES_USER") %>
-  password: <%= ENV.fetch("POSTGRES_PASSWORD") %>
-  database: <%= ENV.fetch("POSTGRES_DB") %>
+  database: <%= ENV.fetch("POSTGRES_DB") { "notos_development" } %>
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   variables:
     statement_timeout: 5000

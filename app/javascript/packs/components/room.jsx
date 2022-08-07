@@ -1,3 +1,6 @@
+/*
+ Oda numarasını görünteleyen ve değiştiren bileşen
+*/
 import React from "react";
 import { useState, useEffect } from 'react';
 
@@ -22,6 +25,7 @@ const Room = (props) => {
     const [userDisplayMode, setUserDisplayMode] = useState("Show")
 
 
+    // Kullanıcıya 2 saniyelik bildirimler göster
     const textAlert = (alertText) => {
         setAlertText(alertText)
         setTimeout(() => {
@@ -29,8 +33,10 @@ const Room = (props) => {
         }, 2000)
     }
 
+    // Oda numarasını güncelle
     const roomFormSubmitHandler = (event) => {
         event.preventDefault()
+        // Kullanıcının girdiği değeri oda servisine gönder ve güncelle
         roomService.updateRoom(roomName)
             .then(data => {
                 if (data.alert !== null) {
@@ -47,6 +53,7 @@ const Room = (props) => {
                     .then((data) => {
                         setRecordings(data)
                     })
+                // Oda numarası değiştiği için yeni bir websocket aboneliği oluştur
                 consumer.subscriptions.create({channel: "ChatChannel", id: data.room_id},
                     {
                         received(data) {
@@ -56,8 +63,10 @@ const Room = (props) => {
             })
     }
 
+    // Kullanıcı ismini güncelle
     const usernameFormSubmitHandler = (event) => {
         event.preventDefault()
+        // Kullanıcı ismi servisine kullanıcı adını gönder ve güncelle
         usernameService.updateUsername(username)
             .then(data => {
                 if (data.user_id !== username) {
@@ -70,6 +79,8 @@ const Room = (props) => {
             })
     }
 
+    // Uygulama açıldığında sırasıyla Oda -> Kullanıcı -> Kayıtlar servislerini çağır
+    // Bu sırada olması gerekiyor çünkü son iki değişken Oda numarasına bağlı
     useEffect(() => {
         roomService
             .getRoom()
@@ -91,7 +102,7 @@ const Room = (props) => {
                             setRecordings((old) => [...old, data])
                         },
                         disconnected() {
-                            window.location.reload()
+                            window.location.reload() // Bağlantı kurulamadıysa sayfayı yenile
                         },
                     })
             })
