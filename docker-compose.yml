@@ -4,6 +4,8 @@ services:
     build: .
     ports:
       - "3000:3000"
+    volumes:
+      - .:/usr/src/app
     env_file:
       - .env/development/web
       - .env/development/database
