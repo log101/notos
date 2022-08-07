@@ -10,7 +10,7 @@ const RoomForm = (props) => {
     }
 
     if (props.mode === "Show")
-        return <article>,
+        return <article>
             <p style={{display: "inline", paddingRight: "8px"}} id="room-display">
                 {props.roomName.toString().slice(0, 4) + " - " + props.roomName.toString().slice(4, 8) + " - " + props.roomName.toString().slice(8, 12) + " - " + props.roomName.toString().slice(12, 16)}
             </p>
