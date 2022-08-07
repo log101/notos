@@ -1,5 +1,5 @@
 import recordingsService from '../services/recordings_service'
-import note from '../assets/sounds/notes'
+import {notes} from '../assets/sounds/notes'
 
 import { Piano } from './piano'
 import { Howl } from 'howler';
@@ -40,33 +40,6 @@ const ProgressBar = (props) => {
 // Kayıtları çalan bileşen
 const Player = (props) => {
     // Notalar assetlerin altında kayıtlı, notalar oradaki ses dosyalarına indeksleniyor
-    const notes = {
-        "1C": note.c261,
-        "1Cs": note.c277,
-        "1D": note.d293,
-        "1Ds": note.d311,
-        "1E": note.e329,
-        "1F": note.f349,
-        "1Fs": note.f369,
-        "1G": note.g391,
-        "1Gs": note.g415,
-        "2A": note.a440,
-        "2As": note.a466,
-        "2B": note.b495,
-        "2C": note.c523,
-        "2Cs": note.c545,
-        "2D": note.d587,
-        "2Ds":note.d622,
-        "2E": note.e659,
-        "2F": note.f698,
-        "2Fs": note.f698s,
-        "2G": note.g783,
-        "2Gs": note.g830,
-        "3A": note.a880,
-        "3As": note.a932,
-        "3B": note.b987,
-    }
-
     // Alınan notayı sözlükte eşle ve ilgili notayı çal
     const play = (note) => {
         var sound = new Howl({

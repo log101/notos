@@ -23,7 +23,7 @@ import a880 from './880-A.mp3'
 import a932 from './932-A-sharp.mp3'
 import b987 from './987-B.mp3'
 
-const notes = {
+export const notes = {
     "1C": c261,
     "1Cs": c277,
     "1D": d293,
@@ -50,4 +50,4 @@ const notes = {
     "3B": b987,
 }
 
-export default {notes, c261, c277, d293, d311, e329, f349, f369, g391, g415, a440, a466, b495, c523, c545, d587, d622, e659, f698, f698s, g783, g830, a880, a932, b987}
+export default {c261, c277, d293, d311, e329, f349, f369, g391, g415, a440, a466, b495, c523, c545, d587, d622, e659, f698, f698s, g783, g830, a880, a932, b987}
