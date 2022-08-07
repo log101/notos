@@ -18,7 +18,7 @@ module.exports = function(api) {
   return {
     presets: [
       isTestEnv && [
-        '@babel/preset-env',
+        '@babel/preset-.env',
         {
           targets: {
             node: 'current'
@@ -28,7 +28,7 @@ module.exports = function(api) {
         '@babel/preset-react'
       ],
       (isProductionEnv || isDevelopmentEnv) && [
-        '@babel/preset-env',
+        '@babel/preset-.env',
         {
           forceAllTransforms: true,
           useBuiltIns: 'entry',
